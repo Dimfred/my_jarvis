@@ -1,8 +1,12 @@
 #!/usr/bin/python3
 
 import socket
-from actions import actions
+
+from setup.pins import PINS
+
+from actions.actions import command_to_action
 from actions.command_handler import command_handler
+
 
 
 def init_socket():
@@ -20,14 +24,13 @@ def init_socket():
 
 
 
-
 if __name__ == "__main__":
 
-   actions.PINS.INIT()
+   PINS.init()
 
    sock = init_socket()
 
-   command_handler = command_handler()
+   command_handler = command_handler( command_to_action )
 
    while True:
 

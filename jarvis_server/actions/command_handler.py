@@ -1,19 +1,11 @@
 import threading
 
-from actions import actions
-from utilities.func_wrapper import func_wrapper
-
 class command_handler:
 
-   __command_to_action = {
-      "table on": func_wrapper( actions.table, "on" ),
-      "table off": func_wrapper( actions.table, "off" ),
-      "laptop on": func_wrapper( actions.laptop, "on" ),
-      "laptop off": func_wrapper( actions.laptop, "off" ),
-      }
+   def __init__( self, command_to_action ):
 
-
-   def __init__( self ):
+      # passing the actions to perform on received keywords
+      self.__command_to_action = command_to_action
 
       # notify for our task
       self.__notify = threading.Condition()
@@ -41,7 +33,7 @@ class command_handler:
                command = self.__queue.pop(0)
 
             try:
-               command_handler.__command_to_action[ command ].exe()
+               self.__command_to_action[ command ].exe()
             except KeyError:
                pass
 

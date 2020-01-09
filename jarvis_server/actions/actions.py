@@ -1,52 +1,47 @@
-import RPi.GPIO as GPIO
+import functools
 import time
 
-class PINS:
 
-   class TABLE:
-      OFF = 26
-      ON  = 26
 
-   class LAPTOP:
-      OFF = 0
-      ON  = 0
+class __actions:
 
    @staticmethod
-   def INIT():
+   def table( param ):
+      # TODO move to config
+      sleep_time = 0.3
 
-      # refers by GPIO* not 1-N
-      GPIO.setmode( GPIO.BCM )
-      GPIO.setup( PINS.TABLE.ON, GPIO.OUT )
-      GPIO.setup( PINS.TABLE.OFF, GPIO.OUT )
+      if param == "on":
 
+         for i in range(4):
 
-
-def table( param ):
-   # TODO move to config
-   sleep_time = 0.3
-
-   if param == "on":
-
-      for i in range(4):
-
-         GPIO.output( PINS.TABLE.ON, 1 )
-         time.sleep( sleep_time )
-         GPIO.output( PINS.TABLE.ON, 0 )
-         time.sleep( sleep_time )
+            GPIO.output( PINS.TABLE.ON, 1 )
+            #time.sleep( sleep_time )
+            #GPIO.output( PINS.TABLE.ON, 0 )
+            #time.sleep( sleep_time )
 
 
-   elif param == "off":
+      elif param == "off":
 
-      print( "table off" )
+         print( "table off" )
 
-      for i in range(4):
+         for i in range(4):
 
-         GPIO.output( PINS.TABLE.OFF, 1 )
-         time.sleep( sleep_time )
-         GPIO.output( PINS.TABLE.OFF, 0 )
-         time.sleep( sleep_time )
+            #GPIO.output( PINS.TABLE.OFF, 1 )
+            #time.sleep( sleep_time )
+            GPIO.output( PINS.TABLE.OFF, 0 )
+            #time.sleep( sleep_time )
 
 
-def laptop( param ):
-   pass
+   @staticmethod
+   def laptop( param ):
+      pass
+
+
+command_to_action = {
+   "table on": functools.partial( __actions.table, "on" ),
+   "table off": functools.partial( __actions.table, "off" ),
+   "laptop on": functools.partial( __actions.laptop, "on" ),
+   "laptop off": functools.partial( __actions.laptop, "off" ),
+   }
+
 
