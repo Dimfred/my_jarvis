@@ -1,8 +1,11 @@
 import threading
 
+from actions.actions import command_to_action
+
+
 class command_handler:
 
-   def __init__( self, command_to_action ):
+   def __init__( self ):
 
       # passing the actions to perform on received keywords
       self.__command_to_action = command_to_action
@@ -33,9 +36,9 @@ class command_handler:
                command = self.__queue.pop(0)
 
             try:
-               self.__command_to_action[ command ].exe()
+               self.__command_to_action[ command ]()
             except KeyError:
-               pass
+               print( "KeyError: Command could not be found." )
 
 
    def push_queue( self, command ):

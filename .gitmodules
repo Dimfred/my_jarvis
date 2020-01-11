@@ -1,0 +1,3 @@
+[submodule "jarvis_server/devices/magichome-python"]
+	path = jarvis_server/devices/magichome-python
+	url = git@github.com:adamkempenich/magichome-python.git

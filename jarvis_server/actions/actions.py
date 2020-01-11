@@ -1,47 +1,16 @@
+from setup import pins
+from utilities.utilities import print_func_deco
+from hardware.hardware import remote_sockets
+
 import functools
 import time
 
 
-
-class __actions:
-
-   @staticmethod
-   def table( param ):
-      # TODO move to config
-      sleep_time = 0.3
-
-      if param == "on":
-
-         for i in range(4):
-
-            GPIO.output( PINS.TABLE.ON, 1 )
-            #time.sleep( sleep_time )
-            #GPIO.output( PINS.TABLE.ON, 0 )
-            #time.sleep( sleep_time )
-
-
-      elif param == "off":
-
-         print( "table off" )
-
-         for i in range(4):
-
-            #GPIO.output( PINS.TABLE.OFF, 1 )
-            #time.sleep( sleep_time )
-            GPIO.output( PINS.TABLE.OFF, 0 )
-            #time.sleep( sleep_time )
-
-
-   @staticmethod
-   def laptop( param ):
-      pass
-
-
 command_to_action = {
-   "table on": functools.partial( __actions.table, "on" ),
-   "table off": functools.partial( __actions.table, "off" ),
-   "laptop on": functools.partial( __actions.laptop, "on" ),
-   "laptop off": functools.partial( __actions.laptop, "off" ),
+   "table on": functools.partial( remote_sockets.send, 1, "on" ),
+   "table off": functools.partial( remote_sockets.send, 1, "off" ),
+   "laptop on": functools.partial( remote_sockets.send, 2, "on" ),
+   "laptop off": functools.partial( remote_sockets.send, 2, "off" ),
+   "light on": functools.partial( remote_sockets.send, 3, "on" ),
+   "light off": functools.partial( remote_sockets.send, 3, "off" ),
    }
-
-

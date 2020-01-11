@@ -2,35 +2,31 @@
 
 import socket
 
-from setup.pins import PINS
-
-from actions.actions import command_to_action
 from actions.command_handler import command_handler
-
 
 
 def init_socket():
 
-   addr = ( "0.0.0.0", 1337 )
-   sock = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
-   sock.setsockopt( socket.SOL_SOCKET, socket.SO_REUSEADDR, 1 )
    try:
+
+      addr = ( "0.0.0.0", 1337 )
+      sock = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
+      sock.setsockopt( socket.SOL_SOCKET, socket.SO_REUSEADDR, 1 )
       sock.bind( addr )
+      sock.listen(1)
+      return sock
+
    except Exception as e:
       print( e )
 
-   sock.listen(1)
-   return sock
 
 
 
 if __name__ == "__main__":
 
-   PINS.init()
-
    sock = init_socket()
 
-   command_handler = command_handler( command_to_action )
+   command_handler = command_handler()
 
    while True:
 
@@ -41,9 +37,10 @@ if __name__ == "__main__":
          client.close()
          continue
 
-      command = client.recv( 32 ).decode()
+      msg = client.recv( 128 ).decode()
       client.close()
 
-      command_handler.push_queue( command )
+      # TODO maybe split msg here
+      command_handler.push_queue( msg )
 
 
