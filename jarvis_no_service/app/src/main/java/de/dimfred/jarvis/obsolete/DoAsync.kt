@@ -1,4 +1,4 @@
-package de.dimfred.jarvis_no_service.command
+package de.dimfred.jarvis.obsolete
 
 import android.os.AsyncTask
 

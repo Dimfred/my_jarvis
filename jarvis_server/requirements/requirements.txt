@@ -1,2 +1,4 @@
 RPi.GPIO
 rpi-rf
+samsungctl
+cec

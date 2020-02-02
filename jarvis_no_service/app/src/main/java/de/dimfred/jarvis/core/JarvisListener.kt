@@ -1,4 +1,4 @@
-package de.dimfred.jarvis_no_service.speech_recognition
+package de.dimfred.jarvis.core
 
 import android.os.Bundle
 import android.speech.RecognitionListener

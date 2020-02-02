@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.dimfred.jarvis_no_service">
+    package="de.dimfred.jarvis">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!-- permission for sockets -->
@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="de.dimfred.jarvis.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

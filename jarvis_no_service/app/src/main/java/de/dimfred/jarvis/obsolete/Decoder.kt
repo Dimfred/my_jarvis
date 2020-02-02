@@ -1,4 +1,4 @@
-package de.dimfred.jarvis_no_service.command
+package de.dimfred.jarvis.obsolete
 
 class Decoder
 {
@@ -19,11 +19,15 @@ class Decoder
   
     companion object
     {
+        // TODO make hashset or move entirely into pi
         private val validCommands: ArrayList<String> = arrayListOf(
             "table on",
             "table off",
+            "make it romantic",
             "laptop on",
-            "laptop off"
+            "laptop off",
+            "light on",
+            "light off"
             )
     }
 }

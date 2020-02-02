@@ -1,4 +1,4 @@
-package de.dimfred.jarvis_no_service
+package de.dimfred.jarvis
 
 import org.junit.Test
 
