@@ -4,8 +4,7 @@ package de.dimfred.jarvis.core
 import android.os.AsyncTask
 import android.util.Log
 import java.lang.Exception
-
-import java.net.Socket
+import java.net.*
 
 class AppMessageSender: AsyncTask<String, Void, Boolean>
 {
@@ -19,38 +18,40 @@ class AppMessageSender: AsyncTask<String, Void, Boolean>
         piPort = port
     }
 
-    override fun doInBackground(vararg params: String?): Boolean
+    override fun doInBackground( vararg params: String? ): Boolean
     {
-        socket = Socket( piAddr, piPort )
-        // in ms
-        socket.soTimeout = 500
+        var success = true
 
+        try
+        {
+            socket = makeTcpSocket()
+            socket.connect( InetSocketAddress(piAddr, piPort), 200 )
 
-        var appMsg = params[0]!!
+            var appMsg = params[0]!!
+            socket!!.outputStream.write( appMsg.toByteArray() )
 
-        val success = sendAppMsg( appMsg )
-
-        socket.close()
+            socket!!.close()
+        }
+        catch( e: Exception )
+        {
+            Log.i( TAG, e.toString() )
+            success = false
+        }
 
         return success
     }
 
-    override fun onPostExecute(result: Boolean) {
-        super.onPostExecute(result)
-        return
+    private fun makeTcpSocket(): Socket
+    {
+        var sock = Socket()
+        sock.soTimeout = 300 // ms
+        return sock
     }
 
-    private fun sendAppMsg( appMsg: String ): Boolean
+    override fun onPostExecute(result: Boolean)
     {
-        try {
-            socket.outputStream.write( appMsg.toByteArray() )
-        }
-        catch( e: Exception ) {
-            Log.e(TAG, e.toString() )
-            return false
-        }
-
-        return true
+        super.onPostExecute(result)
+        return
     }
 
     companion object

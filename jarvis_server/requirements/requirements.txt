@@ -2,3 +2,4 @@ RPi.GPIO
 rpi-rf
 samsungctl
 cec
+python-magichue

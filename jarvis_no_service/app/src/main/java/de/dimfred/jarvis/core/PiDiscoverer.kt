@@ -8,29 +8,40 @@ import java.net.*
 import java.nio.charset.Charset
 import java.net.DatagramSocket
 
-class PiDiscoverer: AsyncTask<String, Void, String?>
+class PiDiscoverer: AsyncTask<Void, Void, String?>
 {
-    private val broadcastAddr = Inet4Address.getByName("255.255.255.255" )
-    private val port = 55555
-    private var socket = makeDatagramSocket()
+    private val addr: InetAddress
+    private val port: Int
 
+    private var socket: DatagramSocket
 
-    constructor()
+    constructor( addr: String, port: Int )
     {
+        this.addr = Inet4Address.getByName(addr )
+        this.port = port
+        socket = makeDatagramSocket()
     }
 
-    override fun doInBackground(vararg params: String?): String?
+    override fun doInBackground(vararg params: Void?): String?
     {
         var packet = makeDiscoveryPacket()
 
-        var success = performDiscovery( packet )
-        socket.close()
+        try
+        {
+            // perform discovery
+            socket.send(packet)
+            socket.receive(packet) // from myself
+            socket.receive(packet) // hopefully from PI
+            socket.close()
 
-        if( !success )
+            if( !isPacketFromPi(packet) )
+                return null
+        }
+        catch( e: Exception )
+        {
+            Log.i( TAG, e.toString() )
             return null
-
-        if( !isPacketFromPi( packet) )
-            return null
+        }
 
         return extractIpAddr( packet )
     }
@@ -51,67 +62,20 @@ class PiDiscoverer: AsyncTask<String, Void, String?>
 
     private fun makeDiscoveryPacket(): DatagramPacket
     {
-        return DatagramPacket( discoverySend.clone(), discoverySend.size, broadcastAddr, port )
+        return DatagramPacket( discoverySend.clone(), discoverySend.size, addr, port )
     }
 
-    private fun performDiscovery( packet: DatagramPacket ): Boolean
-    {
-        var success = sendDiscoveryPacket( packet )
-        if( !success ) {
-            return false
-        }
-
-        success = recvDiscoveryPacket( packet )
-        if( !success ) {
-            return false
-        }
-
-        return true
-    }
-
-    private fun sendDiscoveryPacket( packet: DatagramPacket ): Boolean
-    {
-        try {
-            socket.send(packet)
-            // first packet is from the sender
-            socket.receive(packet)
-        }
-        catch( e: Exception ) {
-            Log.e(TAG, e.toString() )
-            return false
-        }
-
-        return true
-    }
-
-    private fun recvDiscoveryPacket( packet: DatagramPacket ): Boolean
-    {
-        try {
-            socket.receive(packet)
-        }
-        catch( e: SocketTimeoutException ) {
-            Log.e(TAG, e.toString() )
-            return false
-        }
-        catch( e: Exception ) {
-            Log.e(TAG, e.toString() )
-            return false
-        }
-
-        return true
-    }
-
-    private fun isPacketFromPi(packet: DatagramPacket ): Boolean
+    private fun isPacketFromPi( packet: DatagramPacket ): Boolean
     {
         var response = packet.data.toString( Charset.defaultCharset() )
 
-        if( response == discoveryRecv)
-            return true
+        if( response != discoveryRecv )
+            return false
 
-        return false
+        return true
     }
 
-    private fun extractIpAddr(packet: DatagramPacket ): String
+    private fun extractIpAddr( packet: DatagramPacket ): String
     {
         var addr = packet.address
             .toString()

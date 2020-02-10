@@ -15,12 +15,10 @@ class JarvisRecognizer
 {
     private var speechRecognizer: SpeechRecognizer
     private var recognizerIntent: Intent
-    private var jarvisListener: JarvisListener
+    private var jarvisListener = JarvisListener()
 
     constructor( ctx: AppCompatActivity )
     {
-        jarvisListener = JarvisListener()
-
         speechRecognizer = initRecognizer( ctx, jarvisListener )
         recognizerIntent = initIntent()
 
@@ -32,7 +30,7 @@ class JarvisRecognizer
         speechRecognizer.startListening( recognizerIntent )
     }
 
-    fun registerResultCallback( cb: (result: ArrayList<String>?) -> Unit )
+    fun setOnSpeechResultCallback(cb: (result: ArrayList<String>?) -> Unit )
     {
         jarvisListener.registerResultCallback( cb )
     }

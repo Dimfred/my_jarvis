@@ -7,7 +7,7 @@ import android.util.Log
 
 class JarvisListener : RecognitionListener
 {
-    private var resultCb: ((res: ArrayList<String>?) -> Unit)? = null
+    private var resultCb: ((speechResult: ArrayList<String>?) -> Unit)? = null
 
     fun registerResultCallback( cb: (result: ArrayList<String>?) -> Unit )
     {
@@ -18,10 +18,6 @@ class JarvisListener : RecognitionListener
     {
         Log.i(TAG, "onResults")
         var matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-
-        //var text = ""
-        //for (result in matches!!)
-        //    text += result + "\n"
 
         if( resultCb != null )
             resultCb!!( matches )

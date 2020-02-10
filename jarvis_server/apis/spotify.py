@@ -8,5 +8,5 @@ session = spotipy.Spotify(
 def play( query ):
    pass
 
-def __search():
+def _search():
    res = ""

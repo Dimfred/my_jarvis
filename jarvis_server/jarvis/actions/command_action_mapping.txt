@@ -1,0 +1,147 @@
+light on#light on
+light off#light off
+lights off#light off
+pc on#pc on
+pc off#pc off
+tv on#tv on
+light colour red#light colour red
+light brightness 100#light brightness 1
+light brightness three#light brightness 3
+light brightness 3#light brightness 3
+light brighness 10#light brighness 10
+lightmode crossfade#light mode crossfade
+lightmode crossfit#light mode crossfade
+light mode crossfade#light mode crossfade
+light mode crossfit#light mode crossfade
+lightmode cross-fade#light mode crossfade
+light mode normal#light mode normal
+lightmode normal#light mode normal
+light normal#light mode normal
+flight mode normal#light mode normal
+lightmode norman#light mode normal
+light motocross bed#light mode crossfade
+leitmotiv crossword#light mode crossfade
+light wood crossword#light mode crossfade
+light motocross head#light mode crossfade
+lightmoor crosshead#light mode crossfade
+reload_mapping#reload_mapping
+tv off#tv off
+turn tv off#tv off
+turn light on#light on
+turn the light on#light on
+set light on#light on
+set the light on#light on
+turn light off#light off
+turn the light off#light off
+turn lights off#light off
+set light off#light off
+set lights off#light off
+turn pc on#pc on
+turn the pc on#pc on
+turn pc off#pc off
+turn the pc off#pc off
+light colour blue#light colour blue
+live colour blue#light colour blue
+like colour blue#light colour blue
+lights colour blue#light colour blue
+light blue#light colour blue
+lightblue#light colour blue
+lights blue#light colour blue
+make light blue#light colour blue
+make the light blue#light colour blue
+make lights blue#light colour blue
+turn light red#light colour red
+turn the light red#light colour red
+turn lights red#light colour red
+turn light to red#light colour red
+turn on light red#light colour red
+light red#light colour red
+make light red#light colour red
+make the light red#light colour red
+make my light red#light colour red
+make light bright#light colour red
+make lights red#light colour red
+turn light blue#light colour blue
+turn lights blue#light colour blue
+turn the light blue#light colour blue
+set colour blue#light colour blue
+set color blue#light colour blue
+light crossfit#light mode crossfade
+lacrosse head#light mode crossfade
+like crossfit#light mode crossfade
+light crossfade#light mode crossfade
+like crossfade#light mode crossfade
+load more cross head#light mode crossfade
+load more cross bed#light mode crossfade
+livemoor crosshead#light mode crossfade
+crossfade#light mode crossfade
+crossfit#light mode crossfade
+crosshead#light mode crossfade
+cross head#light mode crossfade
+crossword#light mode crossfade
+crossford#light mode crossfade
+cross fit#light mode crossfade
+light mod normal#light mode normal
+like normal#light mode normal
+i like normal#light mode normal
+lights normal#light mode normal
+normal#light mode normal
+lite normal#light mode normal
+warm#light colour warm
+1#light colour warm
+one#light colour warm
+light colour warm#light colour warm
+light color warm#light colour warm
+live colour warm#light colour warm
+light colour to warm#light colour warm
+light color warmer#light colour warm
+light warm#light colour warm
+light one#light colour warm
+live warm#light colour warm
+light 1#light colour warm
+light brightness 1#light brightness 1
+brightness 1#light brightness 1
+brightness one#light brightness 1
+brightness 100#light brightness 1
+light brightness to#light brightness 2
+lights brightness to#light brightness 2
+brightness to#light brightness 2
+brightness too#light brightness 2
+lights brightness three#light brightness 3
+brightness three#light brightness 3
+brightness 3#light brightness 3
+brightness tree#light brightness 3
+brightness ii#light brightness 3
+brightness iii#light brightness 3
+brightness for#light brightness 4
+brightness four#light brightness 4
+brightness 4#light brightness 4
+brightness full#light brightness 4
+brightness fall#light brightness 4
+light brightness for#light brightness 4
+light brightness full#light brightness 4
+lights brightness for#light brightness 4
+lights brightness full#light brightness 4
+light brightness 5#light brightness 5
+lights brightness 5#light brightness 5
+brightness 5#light brightness 5
+brightness 6#light brightness 6
+brightness six#light brightness 6
+light brightness 6#light brightness 6
+lights brightness 6#light brightness 6
+live brightness 6#light brightness 6
+light brightness seven#light brightness 7
+lights brightness seven#light brightness 7
+brightness seven#light brightness 7
+brightness 7#light brightness 7
+light brightness 8#light brightness 8
+lights brightness 8#light brightness 8
+brightness 8#light brightness 8
+brightness s8#light brightness 8
+brightness eight#light brightness 8
+light brightness#light brightness 9
+brightness 9#light brightness 9
+brightness nine#light brightness 9
+brightness 10#light brightness 10
+light brightness 10#light brightness 10
+lights brightness 10#light brightness 10

@@ -5,18 +5,24 @@ import android.os.Bundle
 import android.util.Log
 
 import de.dimfred.jarvis.core.AppMessageSender
-import de.dimfred.jarvis.core.PiDiscoverer
+import de.dimfred.jarvis.core.Config
 import de.dimfred.jarvis.core.JarvisRecognizer
+import de.dimfred.jarvis.core.messages.CommandMessage
+import de.dimfred.jarvis.core.PiDiscoverer
+import de.dimfred.jarvis.core.messages.TrainActionMessage
+import kotlinx.android.synthetic.main.activity_main.*
 
 // implements the layout with ids
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var jarvisRecognizer: JarvisRecognizer
+    var prevMsgDelivered = false
 
-    private var piAddr: String? = null
-    private var appPort = 1337
+    var piAddr: String? = null
+
+    lateinit var jarvisRecognizer: JarvisRecognizer
+    private lateinit var mvController: MVController
+
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -24,70 +30,112 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         jarvisRecognizer = JarvisRecognizer( this )
-        jarvisRecognizer.registerResultCallback { result -> onSpeechResult( result) }
+        jarvisRecognizer.setOnSpeechResultCallback { result -> onSpeechResultCommand( result) }
 
-        voiceBtn.setOnClickListener{ jarvisRecognizer.listen() }
-
+        mvController = MVController( this )
+        mvController.initOnClickListeners()
     }
 
-    override fun onResume() {
+    override fun onResume()
+    {
         super.onResume()
+
+        discoverPi()
 
         jarvisRecognizer.listen()
     }
     
-    private fun onSpeechResult(speechResult: ArrayList<String>? )
+    private fun onSpeechResultCommand(speechResult: ArrayList<String>? )
     {
-        if( speechResult == null )
+        if( speechResult.isNullOrEmpty() )
             return
 
-        var appMsg = buildAppMsg( speechResult )
-
-        resultTv.text = appMsg
-
-        piAddr = discoverPi()
-        if( piAddr == null ) {
-            var failedMsg= "PI could not be discovered."
-            //resultTv.text += failedMsg
-            Log.i( TAG, failedMsg )
+        if( !prevMsgDelivered && !discoverPi() )
             return
-        }
 
+        var processed = preProcessSpeechResults( speechResult!! )
 
-
-        // var success = sendToPi( appMsg )
-        sendToPi( appMsg )
+        var msg = CommandMessage( processed )
+        prevMsgDelivered = sendToPi( msg.serialize() )
+        if( !prevMsgDelivered )
+            piAddr = null
     }
 
-    private fun discoverPi(): String?
+
+    private fun onSpeechResultTraining( speechResult: ArrayList<String>? )
     {
-        var discoverer = PiDiscoverer().also {
-            it.execute("")
-        }
+        if( speechResult.isNullOrEmpty() )
+            return
 
-        return discoverer.get()
+        var actionToTrain = trainingEb.text.toString()
+        if( trainingEb.text.isNullOrEmpty() )
+            return
+
+        if( !prevMsgDelivered && !discoverPi() )
+            return
+
+        var processed = preProcessSpeechResults( speechResult!! )
+
+        var msg = TrainActionMessage( actionToTrain, processed )
+
+        Log.i(TAG, msg.serialize())
+
+        prevMsgDelivered = sendToPi( msg.serialize() )
+        if( !prevMsgDelivered )
+            piAddr = null
     }
 
-    private fun sendToPi(appMsg: String ): Boolean
+    private fun preProcessSpeechResults(speechResult: ArrayList<String> ): ArrayList<String>
+    {
+        var processed = ArrayList<String>()
+
+        for( result in speechResult )
+        {
+            var res = result.replace(",", "" )
+            res = res.replace(".", "" )
+            res = res.replace("!", "" )
+            res = res.replace("?", "" )
+            res = res.toLowerCase()
+            processed.add( res )
+        }
+
+        return processed
+    }
+
+    fun discoverPi(): Boolean
+    {
+        var piDiscoverer = PiDiscoverer(Config.DISCOVERY_ADDR, Config.DISCOVERY_PORT).also {
+            it.execute()
+        }
+
+        piAddr = piDiscoverer.get().toString()
+        Log.i( TAG, piAddr )
+
+        mvController.onPiDiscoveryFinish()
+
+        return piAddr != null
+    }
+
+    fun sendToPi( appMsg: String ): Boolean
     {
         var appMsgSender = AppMessageSender(
             piAddr!!,
-            appPort
+            Config.APP_PORT
         ).also {
             it.execute( appMsg )
         }
 
-        return appMsgSender.get()
+        return appMsgSender.get().toString().toBoolean()
     }
 
-    private fun buildAppMsg( speechResult: ArrayList<String> ): String
+    fun setSpeechResultCallbackCommand()
     {
-        var appMsg = ""
-        for( part in speechResult ) {
-            appMsg += part.toLowerCase() + "\n"
-        }
+        jarvisRecognizer.setOnSpeechResultCallback { result -> onSpeechResultCommand( result) }
+    }
 
-        return appMsg
+    fun setSpeechResultCallbackTraining()
+    {
+        jarvisRecognizer.setOnSpeechResultCallback { result -> onSpeechResultTraining( result) }
     }
 
     companion object
